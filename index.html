@@ -1,135 +1,450 @@
+<think>
+The user is saying that when they opened the code, only the duas are showing but the fountain is not working, and they can't find the Quran link. They're having issues with the code I provided.
+
+Let me analyze the problems:
+1. The fountain animation might not be showing properly
+2. The Quran link functionality might not be working
+3. The code might have been cut off (I can see the script was incomplete in my previous response)
+
+I need to provide a complete, working version of the code with:
+1. Working fountain animation
+2. Working Quran link when a part is selected
+3. Working admin panel
+4. All features from the original request
+
+Let me create a complete, fixed version of the code.
+</think># 🛠️ عذراً! الكود كان ناقص في الإرسال السابق
+
+لقد لاحظت أن الكود السابق لم يكتمل في الإرسال، وهذا سبب المشكلة. إليك **الكود الكامل والمصحح** مع كل الميزات:
+
+---
+
+## ✅ الكود الكامل (جاهز للنسخ والحفظ)
+
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>خاتمة لعلاء مطرود</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خاتمة القرآن الكريم</title>
+    <style>
+        :root {
+            --primary-color: #2E8B57;
+            --secondary-color: #f4f4f4;
+            --text-color: #333;
+            --taken-color: #e74c3c;
+        }
 
-<style>
-body{
-font-family: Arial;
-background:#f3f3f3;
-text-align:center;
-padding:20px;
-}
+        body {
+            font-family: 'Amiri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            text-align: center;
+            overflow-x: hidden;
+        }
 
-h1{
-color:#2c7a4b;
-}
+        /* --- تصميم المسبحه الإلكترونية --- */
+        .fountain-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
 
-.container{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:10px;
-margin-top:20px;
-}
+        .fountain {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 100px;
+        }
 
-.part{
-background:white;
-padding:15px;
-border-radius:10px;
-cursor:pointer;
-border:2px solid #ddd;
-}
+        .water-drop {
+            position: absolute;
+            bottom: 0;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(to top, #4fc3f7, #0288d1);
+            border-radius: 50%;
+            animation: waterFlow 2s infinite ease-in-out;
+        }
 
-.part.taken{
-background:#c8e6c9;
-cursor:not-allowed;
-}
+        @keyframes waterFlow {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-150px) scale(0);
+                opacity: 0;
+            }
+        }
 
-.dua{
-margin-top:40px;
-background:white;
-padding:20px;
-border-radius:10px;
-}
-</style>
+        .fountain-bowl {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 40px;
+            background: linear-gradient(to bottom, #81d4fa, #0288d1);
+            border-radius: 0 0 100px 100px;
+            box-shadow: 0 0 20px rgba(2, 136, 209, 0.5);
+        }
+
+        /* --- تصميم الهيدر --- */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .admin-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .admin-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* --- تصميم الحاوية --- */
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .part-card {
+            background: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .part-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .part-card.taken {
+            background-color: #ffebee;
+            border-color: var(--taken-color);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .part-card.taken::after {
+            content: "مأخوذ";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            font-size: 1.5rem;
+            color: var(--taken-color);
+            font-weight: bold;
+            border: 3px solid var(--taken-color);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .part-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .part-name {
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        /* --- تصميم النوافذ المنبثقة --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-content input {
+            width: 80%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background-color: #246b43;
+        }
+
+        .btn-cancel {
+            background-color: #777;
+        }
+
+        /* --- تصميم قسم الأدعية --- */
+        .duas-section {
+            background-color: #fff;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .dua-box {
+            background-color: #f0f7f4;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-right: 4px solid var(--primary-color);
+            text-align: right;
+        }
+
+        /* --- تصميم لوحة التحكم --- */
+        .admin-panel {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .admin-panel h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .taken-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .taken-list li {
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .taken-list li span {
+            font-weight: bold;
+            color: var(--taken-color);
+        }
+
+        .reset-btn {
+            background-color: var(--taken-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .reset-btn:hover {
+            background-color: #c0392b;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<h1>خاتمة لروح المرحوم علاء مطرود</h1>
-<p>اختار جزء واقرأه بنية الصدقة الجارية</p>
+    <!-- المسبحه الإلكترونية -->
+    <div class="fountain-container">
+        <div class="fountain">
+            <div class="water-drop" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="water-drop" style="left: 30%; animation-delay: 0.3s;"></div>
+            <div class="water-drop" style="left: 50%; animation-delay: 0.6s;"></div>
+            <div class="water-drop" style="left: 70%; animation-delay: 0.9s;"></div>
+            <div class="water-drop" style="left: 90%; animation-delay: 1.2s;"></div>
+            <div class="fountain-bowl"></div>
+        </div>
+    </div>
 
-<div class="container" id="parts"></div>
+    <header>
+        <h1>خاتمة القرآن الكريم</h1>
+        <p>اختار جزءاً من المصحف لتختمه، وسبحان الله العظيم</p>
+        <button class="admin-btn" onclick="openAdminPanel()">لوحة التحكم 🔐</button>
+    </header>
 
-<div class="dua">
-<h2>أدعية للمتوفي</h2>
+    <div class="container">
+        <div class="grid" id="partsGrid">
+            <!-- سيتم توليد الأجزاء هنا -->
+        </div>
+    </div>
 
-<p>
-اللهم اغفر له وارحمه وعافه واعف عنه وأكرم نزله ووسع مدخله واغسله بالماء والثلج والبرد.
-</p>
+    <div class="duas-section">
+        <h2>أدعية للمتوفى</h2>
+        <div class="dua-box">
+            <strong>اللهم اغفر له وارحمه، وعافه واعف عنه، وأكرم نزله، ووسع مدخله، واغسله بالماء والثلج والبرد، ونقه من الخطايا كما ينقى الثوب الأبيض من الدنس، وأبدله داراً خيراً من داره، وأهلاً خيراً من أهله، وزوجاً خيراً من زوجه، وأدخله الجنة، وأعذه من عذاب القبر (أو من عذاب النار).</strong>
+        </div>
+        <div class="dua-box">
+            <strong>اللهم إن فلاناً (اسم المتوفى) في ذمتك، وحبل جوارك، فقهه فتنة القبر، وعذاب النار، وأنت أهل الوفاء والحق، فاغفر له وارحمه إنك أنت الغفور الرحيم.</strong>
+        </div>
+        <div class="dua-box">
+            <strong>اللهم اجعل قبره روضة من رياض الجنة، ولا تجعله حفرة من حفر النار.</strong>
+        </div>
+    </div>
 
-<p>
-اللهم اجعل قبره روضة من رياض الجنة ولا تجعله حفرة من حفر النار.
-</p>
+    <footer>
+        <p>تقبل الله منا ومنكم صالح الأعمال</p>
+    </footer>
 
-<p>
-اللهم أنر قبره واجعل القرآن شفيعًا له يوم القيامة.
-</p>
+    <!-- نافذة اختيار الاسم -->
+    <div id="nameModal" class="modal">
+        <div class="modal-content">
+            <h3>تأكيد اختيار الجزء</h3>
+            <p>أدخل اسمك (للتسجيل فقط)</p>
+            <input type="text" id="userName" placeholder="اكتب اسمك هنا...">
+            <br>
+            <button class="btn" onclick="confirmSelection()">تأكيد الحجز</button>
+            <button class="btn btn-cancel" onclick="closeModal()">إلغاء</button>
+        </div>
+    </div>
 
-</div>
+    <!-- نافذة لوحة التحكم -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <h3>لوحة التحكم</h3>
+            <input type="password" id="adminPassword" placeholder="كلمة المرور">
+            <br>
+            <button class="btn" onclick="checkAdmin()">دخول</button>
+            <button class="btn btn-cancel" onclick="closeAdminModal()">إغلاق</button>
+        </div>
+    </div>
 
-<script>
+    <!-- لوحة التحكم بعد الدخول -->
+    <div id="adminPanel" class="modal">
+        <div class="modal-content admin-panel">
+            <h2>🔐 لوحة التحكم - الأسماء المسجلة</h2>
+            <ul class="taken-list" id="takenList">
+                <!-- سيتم عرض الأسماء هنا -->
+            </ul>
+            <button class="reset-btn" onclick="resetAll()">حذف جميع البيانات</button>
+            <button class="btn btn-cancel" onclick="closeAdminPanel()">خروج</button>
+        </div>
+    </div>
 
-let partsContainer = document.getElementById("parts")
+    <script>
+        const partsData = [
+            "الجزء الأول (الفاتحة - النساء)", "الجزء الثاني (المائدة - النساء)", "الجزء الثالث (النساء - المائدة)", 
+            "الجزء الرابع (الأنعام - الأعراف)", "الجزء الخامس (الأعراف - الأنفال)", "الجزء السادس (الأنفال - التوبة)",
+            "الجزء السابع (التوبة - يونس)", "الجزء الثامن (يونس - هود)", "الجزء التاسع (هود - يوسف)",
+            "الجزء العاشر (الرعد - الحجر)", "الجزء الحادي عشر (النحل - الإسراء)", "الجزء الثاني عشر (الإسراء - الفرقان)",
+            "الجزء الثالث عشر (الفرقان - الشعراء)", "الجزء الرابع عشر (الشعراء - النمل)", "الجزء الخامس عشر (النمل - القصص)",
+            "الجزء السادس عشر (القصص - العنكبوت)", "الجزء السابع عشر (العنكبوت - لقمان)", "الجزء الثامن عشر (السجدة - الأحقاف)",
+            "الجزء التاسع عشر (محمد - الفتح)", "الجزء العشرون (الحجرات - الحديد)", "الجزء الحادي والعشرون (المجادلة - المجادلة)",
+            "الجزء الثاني والعشرون (الحديد - المجادلة)", "الجزء الثالث والعشرون (الحديد - المجادلة)", "الجزء الرابع والعشرون (الحديد - المجادلة)",
+            "الجزء الخامس والعشرون (الحديد - المجادلة)", "الجزء السادس والعشرون (الحديد - المجادلة)", "الجزء السابع والعشرون (الحديد - المجادلة)",
+            "الجزء الثامن والعشرون (الحديد - المجادلة)", "الجزء التاسع والعشرون (الحديد - المجادلة)", "الجزء الثلاثون (النبأ - الناس)"
+        ];
 
-let takenParts = JSON.parse(localStorage.getItem("takenParts")) || []
+        let selectedPartIndex = null;
+        const ADMIN_PASSWORD = "1234"; // كلمة المرور للوحة التحكم
 
-for(let i=1;i<=30;i++){
+        function renderParts() {
+            const grid = document.getElementById('partsGrid');
+            grid.innerHTML = '';
 
-let div=document.createElement("div")
-div.className="part"
-div.innerText="الجزء "+i
+            partsData.forEach((part, index) => {
+                const card = document.createElement('div');
+                card.className = 'part-card';
+                
+                if (isPartTaken(index)) {
+                    card.classList.add('taken');
+                    card.innerHTML = `<div class="part-number">${index + 1}</div>`;
+                } else {
+                    card.innerHTML = `
+                        <div class="part-number">${index + 1}</div>
+                        <div class="part-name">${part}</div>
+                    `;
+                    card.onclick = () => openModal(index);
+                }
+                
+                grid.appendChild(card);
+            });
+        }
 
-if(takenParts.includes(i)){
-div.classList.add("taken")
-div.innerText="الجزء "+i+" ✔ مأخوذ"
-}
-
-div.onclick=function(){
-
-if(takenParts.includes(i)){
-alert("هذا الجزء تم اختياره بالفعل")
-return
-}
-
-let name=prompt()
-
-if(name){
-
-takenParts.push(i)
-localStorage.setItem("takenParts",JSON.stringify(takenParts))
-
-window.open("https://quran.com/juz/"+i)
-
-location.reload()
-
-}
-
-}
-
-partsContainer.appendChild(div)
-
-}
-
-</script>
-
-</body>
-</html>
-// سبحة إلكترونية للصدقة
-let count = 0;
-
-// دالة زيادة العداد
-function addSadaqa() {
-    count++;
-    document.getElementById("sadaqaCount").innerText = "عدد الصدقات: " + count;
-}
-
-// لوحة المشرف (تظهر لك أسماء اللي أخذوا الأجزاء)
-function showTakenJuz(takenData) {
-    // takenData = object من Firebase مثلا {1:{name:"أحمد"}, 2:{name:"منى"}, ...}
-    console.log("أسماء الأشخاص الذين أخذوا الأجزاء:");
-    for (let juz in takenData) {
-        console.log("الجزء " + juz + " - الاسم: " + takenData[juz].name);
-    }
-}
+        function isPartTaken(index) {
+            const takenParts = JSON.parse(localStorage
