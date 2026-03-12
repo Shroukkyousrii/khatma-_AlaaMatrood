@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>خاتمة لعلاء مطرود</title>
+
+<style>
+body{
+font-family: Arial;
+background:#f3f3f3;
+text-align:center;
+padding:20px;
+}
+
+h1{
+color:#2c7a4b;
+}
+
+.container{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:10px;
+margin-top:20px;
+}
+
+.part{
+background:white;
+padding:15px;
+border-radius:10px;
+cursor:pointer;
+border:2px solid #ddd;
+}
+
+.part.taken{
+background:#c8e6c9;
+cursor:not-allowed;
+}
+
+.dua{
+margin-top:40px;
+background:white;
+padding:20px;
+border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>خاتمة لروح المرحوم علاء مطرود</h1>
+<p>اختار جزء واقرأه بنية الصدقة الجارية</p>
+
+<div class="container" id="parts"></div>
+
+<div class="dua">
+<h2>أدعية للمتوفي</h2>
+
+<p>
+اللهم اغفر له وارحمه وعافه واعف عنه وأكرم نزله ووسع مدخله واغسله بالماء والثلج والبرد.
+</p>
+
+<p>
+اللهم اجعل قبره روضة من رياض الجنة ولا تجعله حفرة من حفر النار.
+</p>
+
+<p>
+اللهم أنر قبره واجعل القرآن شفيعًا له يوم القيامة.
+</p>
+
+</div>
+
+<script>
+
+let partsContainer = document.getElementById("parts")
+
+let takenParts = JSON.parse(localStorage.getItem("takenParts")) || []
+
+for(let i=1;i<=30;i++){
+
+let div=document.createElement("div")
+div.className="part"
+div.innerText="الجزء "+i
+
+if(takenParts.includes(i)){
+div.classList.add("taken")
+div.innerText="الجزء "+i+" ✔ مأخوذ"
+}
+
+div.onclick=function(){
+
+if(takenParts.includes(i)){
+alert("هذا الجزء تم اختياره بالفعل")
+return
+}
+
+let name=prompt()
+
+if(name){
+
+takenParts.push(i)
+localStorage.setItem("takenParts",JSON.stringify(takenParts))
+
+window.open("https://quran.com/juz/"+i)
+
+location.reload()
+
+}
+
+}
+
+partsContainer.appendChild(div)
+
+}
+
+</script>
+
+</body>
+</html>
+// سبحة إلكترونية للصدقة
+let count = 0;
+
+// دالة زيادة العداد
+function addSadaqa() {
+    count++;
+    document.getElementById("sadaqaCount").innerText = "عدد الصدقات: " + count;
+}
+
+// لوحة المشرف (تظهر لك أسماء اللي أخذوا الأجزاء)
+function showTakenJuz(takenData) {
+    // takenData = object من Firebase مثلا {1:{name:"أحمد"}, 2:{name:"منى"}, ...}
+    console.log("أسماء الأشخاص الذين أخذوا الأجزاء:");
+    for (let juz in takenData) {
+        console.log("الجزء " + juz + " - الاسم: " + takenData[juz].name);
+    }
+}
